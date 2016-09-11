@@ -98,3 +98,5 @@ app.get('/scrape', function(req, res) {
 	// this will send a "search complete" message to the browser
   res.send("Scrape Complete");
 });
+
+mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
