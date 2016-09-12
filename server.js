@@ -5,12 +5,9 @@ var path = require("path");
 var app = express();
 var request = require('request');
 var cheerio = require('cheerio');
-var mongojs = require('mongojs');
 var databaseUrl = "facts";
 var collections = ["fact"];
 var mongoose = require('mongoose')
-var http = require('http');
-var db = mongojs(databaseUrl, collections);
 var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
@@ -31,7 +28,10 @@ app.listen(PORT, function(){
 });
 
 
-var db = mongojs(databaseUrl, collections);
+// var db = mongojs(databaseUrl, collections);
+mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
+
+var db = mongoose.connect;
 
 db.on('error', function(err) {
   console.log('Database Error:', err);
@@ -72,8 +72,6 @@ app.get('/scrape', function(req, res) {
 	// this will send a "search complete" message to the browser
   res.send("Scrape Complete");
 });
-
-mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
 
 // console.log(module.exports)
 
