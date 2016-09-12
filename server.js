@@ -9,6 +9,7 @@ var mongojs = require('mongojs');
 var databaseUrl = "facts";
 var collections = ["fact"];
 var mongoose = require('mongoose')
+var http = require('http');
 var db = mongojs(databaseUrl, collections);
 var PORT = process.env.PORT || 3000;
 
@@ -17,9 +18,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({type:"application/vnd.api+json"}));
 
-app.engine("handlebars", expresHandlebars({
-    defaultLayout: "index.html"
-}));
+// app.engine("handlebars", expresHandlebars({
+//     defaultLayout: "index.html"
+// }));
 app.set("view engine", "handlebars");
 
 app.use(express.static(path.join(__dirname)));
@@ -81,7 +82,9 @@ app.get('/new', function(req, res) {
   res.send("Hello world");
 });
 
-app.get('/all', function(req, res) {
+app.get('/', function(req, res) {
+
+	res.redirect(index.html)
   // Query: In our database, go to the animals collection, then "find" everything 
   db.fact.find({}, function(err, found) {
     // log any errors if the server encounters one
@@ -90,7 +93,7 @@ app.get('/all', function(req, res) {
     } 
     // otherwise, send the result of this query to the browser
     else {
-      res.json(found);
+      res.send(found);
     }
   });
 });
