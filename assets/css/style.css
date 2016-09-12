@@ -10,28 +10,9 @@
 	background-color: #DCDCDC;
 }
 
-/*#commentInput{
-	color: red;
-	border: 1px solid black;
-	border-radius: 4px;
-	text-align: center;
-	width: 300px;
-	height: 200px;
-	background-color: #DCDCDC;
-}*/
-
-
 div.inline{
 	margin-left: 150px;
 }
-
-.container{
-	margin: 0 auto;
-}
-
-/*.button{
-	margin-left: 260px;
-}*/
 
 body{
 	background-image: url("dark-pattern-109.gif");
@@ -42,13 +23,9 @@ body{
   padding: 1em;
   background-color: rgb(255, 255, 255);
   border: 4px solid rgb(100, 100, 100); 
- /* border: 10px solid rgba(0, 0, 0, 0.3); */
-  -moz-background-clip: padding;  
   margin-top: 100px;
   width: 30%;
   text-align: center;
-/*  margin-left: 25px;
-  margin-right: 25px;*/
 }
 
 #left-box{
@@ -57,7 +34,6 @@ body{
 
 #mid-box{
 	float: left;
-/*	margin-left: 20px;*/
 	width: 20%;
 	margin-left: 96px;
 }

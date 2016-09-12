@@ -3,14 +3,15 @@ var bodyParser = require("body-parser");
 var expresHandlebars = require("express-handlebars");
 var path = require("path");
 var app = express();
-var request = require('request'); // Snatches html from urls
-var cheerio = require('cheerio'); // Scrapes our html
+var request = require('request');
+var cheerio = require('cheerio');
 var mongojs = require('mongojs');
 var databaseUrl = "facts";
 var collections = ["fact"];
+var mongoose = require('mongoose')
+var db = mongojs(databaseUrl, collections);
 var PORT = process.env.PORT || 3000;
 
-// Sets up the Express app to handle data parsing 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
@@ -22,40 +23,12 @@ app.engine("handlebars", expresHandlebars({
 app.set("view engine", "handlebars");
 
 app.use(express.static(path.join(__dirname)));
-// Routes
 
-// Starts the server to begin listening 
-// =============================================================
+
 app.listen(PORT, function(){
 	console.log("App listening on PORT " + PORT);
 });
 
-// console.log("\n***********************************\n" +
-//             "Grabbing every fun fact\n" +
-//             "from a website:" +
-//             "\n***********************************\n");
-
-// request('http://www.thefactsite.com/2011/07/top-100-random-funny-facts.html', function (error, response, html) {
-
-
-// var $ = cheerio.load(html);
-
-// var result = [];
-
-// $('ol').each(function(i, element){
-
-// 	var title = $(this).text();
-
-// 	var link = $(element).children();
-
-// 	result.push({
-//         title:title,
-//         link:link
-//       });
-//     });
-
-// console.log(result);
-// });
 
 var db = mongojs(databaseUrl, collections);
 
@@ -100,3 +73,24 @@ app.get('/scrape', function(req, res) {
 });
 
 mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
+
+// console.log(module.exports)
+
+
+app.get('/new', function(req, res) {
+  res.send("Hello world");
+});
+
+app.get('/all', function(req, res) {
+  // Query: In our database, go to the animals collection, then "find" everything 
+  db.fact.find({}, function(err, found) {
+    // log any errors if the server encounters one
+    if (err) {
+      console.log(err);
+    } 
+    // otherwise, send the result of this query to the browser
+    else {
+      res.json(found);
+    }
+  });
+});
