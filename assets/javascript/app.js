@@ -1,7 +1,7 @@
 var i = 0;
 
 $("#factBtn").click(function() {
-  $.getJSON('/', function(data) {
+  $.getJSON('/articles', function(data) {
   	i++;
   // for each entry of that json...
     // append each animal of the named properties to the table

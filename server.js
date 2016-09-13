@@ -17,6 +17,9 @@ app.use(bodyParser.json({type:"application/vnd.api+json"}));
 
 // app.engine("handlebars", expresHandlebars({
 //     defaultLayout: "index.html"
+
+var article = require('./models/article.js')
+var note = require('./models/note.js')
 // }));
 app.set("view engine", "handlebars");
 
@@ -31,67 +34,112 @@ app.listen(PORT, function(){
 // var db = mongojs(databaseUrl, collections);
 mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
 
-var db = mongoose.connect;
+var db = mongoose.connection;
 
 db.on('error', function(err) {
   console.log('Database Error:', err);
 });
 
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
+
+db.on('error', function(err) {
+  console.log('Mongoose Error: ', err);
+});
+
+app.get('/'), function(req, res){
+	res.sendFile('index.html')
+}
+
 app.get('/scrape', function(req, res) {
-	
-	request('https://www.reddit.com/r/funfacts/', function(error, response, html) {
+	// first, we grab the body of the html with request
+  request('https://www.reddit.com/r/funfacts/', function(error, response, html) {
+  	// then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(html);
+    // now, we grab every h2 within an article tag, and do the following:
+    $('a.title').each(function(i, element) {
 
-		var $ = cheerio.load(html);
+    		// save an empty result object
+				var result = {};
 
-		$('a.title').each(function(i, element){
+				// add the text and href of every link, 
+				// and save them as properties of the result obj
+				result.title = $(this).text();
 
-			var title = $(this).text();
+				// using our Article model, create a new entry.
+				// Notice the (result):
+				// This effectively passes the result object to the entry (and the title and link)
+				var entry = new article (result);
 
-			if (title) {
+				// now, save that entry to the db
+				entry.save(function(err, doc) {
+					// log any errors
+				  if (err) {
+				    console.log(err);
+				  } 
+				  // or log the doc
+				  else {
+				    console.log(doc);
+				  }
+				});
 
-				db.fact.save({
-          			title: title
-          		},
 
-          		function(err, saved) {
-		          // if there's an error during this query
-		          if (err) {
-		            // log the error
-		            console.log(err);
-		          } 
-		          // otherwise, 
-		          else {
-		            // log the saved data
-		            console.log(saved);
-		          }
-		        });
-		      }
-		    });
-		  });
-
-	// this will send a "search complete" message to the browser
+    });
+  });
+  // tell the browser that we finished scraping the text.
   res.send("Scrape Complete");
 });
+
+// app.get('/scrape', function(req, res) {
+	
+// 	request('https://www.reddit.com/r/funfacts/', function(error, response, html) {
+
+// 		var $ = cheerio.load(html);
+
+// 		$('a.title').each(function(i, element){
+
+// 			var title = $(this).text();
+
+// 			if (title) {
+
+// 				db.fact.save({
+//           			title: title
+//           		},
+
+//           		function(err, saved) {
+// 		          // if there's an error during this query
+// 		          if (err) {
+// 		            // log the error
+// 		            console.log(err);
+// 		          } 
+// 		          // otherwise, 
+// 		          else {
+// 		            // log the saved data
+// 		            console.log(saved);
+// 		          }
+// 		        });
+// 		      }
+// 		    });
+// 		  });
+
+// 	// this will send a "search complete" message to the browser
+//   res.send("Scrape Complete");
+// });
 
 // console.log(module.exports)
 
 
-app.get('/new', function(req, res) {
-  res.send("Hello world");
-});
-
-app.get('/', function(req, res) {
-
-	res.redirect(index.html)
-  // Query: In our database, go to the animals collection, then "find" everything 
-  db.fact.find({}, function(err, found) {
-    // log any errors if the server encounters one
-    if (err) {
-      console.log(err);
-    } 
-    // otherwise, send the result of this query to the browser
-    else {
-      res.send(found);
-    }
-  });
+app.get('/articles', function(req, res){
+	// grab every doc in the Articles array
+	article.find({}, function(err, doc){
+		// log any errors
+		if (err){
+			console.log(err);
+		} 
+		// or send the doc to the browser as a json object
+		else {
+			res.json(doc);
+		}
+	});
 });
