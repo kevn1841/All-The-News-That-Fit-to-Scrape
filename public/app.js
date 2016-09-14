@@ -3,6 +3,7 @@ var i = 0;
 $("#factBtn").click(function() {
   $.getJSON('/articles', function(data) {
   	i++;
+    console.log(i)
   // for each entry of that json...
     // append each animal of the named properties to the table
     checkFact();

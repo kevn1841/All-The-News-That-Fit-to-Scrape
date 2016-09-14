@@ -1,12 +1,12 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var expresHandlebars = require("express-handlebars");
+// var expresHandlebars = require("express-handlebars");
 var path = require("path");
 var app = express();
 var request = require('request');
 var cheerio = require('cheerio');
-var databaseUrl = "facts";
-var collections = ["fact"];
+// var databaseUrl = "facts";
+// var collections = ["fact"];
 var mongoose = require('mongoose')
 var PORT = process.env.PORT || 3000;
 
@@ -18,12 +18,12 @@ app.use(bodyParser.json({type:"application/vnd.api+json"}));
 // app.engine("handlebars", expresHandlebars({
 //     defaultLayout: "index.html"
 
-var article = require('./models/article.js')
+var Article = require('./models/article.js')
 var note = require('./models/note.js')
 // }));
-app.set("view engine", "handlebars");
+// app.set("view engine", "handlebars");
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static('public'));
 
 
 app.listen(PORT, function(){
@@ -132,7 +132,7 @@ app.get('/scrape', function(req, res) {
 
 app.get('/articles', function(req, res){
 	// grab every doc in the Articles array
-	article.find({}, function(err, doc){
+	Article.find({}, function(err, doc){
 		// log any errors
 		if (err){
 			console.log(err);
