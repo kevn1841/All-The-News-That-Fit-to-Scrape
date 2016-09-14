@@ -70,7 +70,7 @@ app.get('/scrape', function(req, res) {
 				// using our Article model, create a new entry.
 				// Notice the (result):
 				// This effectively passes the result object to the entry (and the title and link)
-				var entry = new article (result);
+				var entry = new Article (result);
 
 				// now, save that entry to the db
 				entry.save(function(err, doc) {
