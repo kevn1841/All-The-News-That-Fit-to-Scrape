@@ -9,13 +9,13 @@ var articleSchema = new Schema({
   title: {
     type:String,
     required:true
-  },
+  }
   // link is required
   // this only saves one note's ObjectId. ref refers to the Note model.
-  note: {
-      type: Schema.Types.ObjectId,
-      ref: 'note'
-  }
+  // note: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'note'
+  // }
 });
 
 // Create the Article model with the ArticleSchema

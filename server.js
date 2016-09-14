@@ -130,7 +130,7 @@ app.get('/scrape', function(req, res) {
 // console.log(module.exports)
 
 
-app.get('articles', function(req, res){
+app.get('/articles', function(req, res){
 	// grab every doc in the Articles array
 	Article.find({}, function(err, doc){
 		// log any errors
