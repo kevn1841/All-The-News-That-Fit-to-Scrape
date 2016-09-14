@@ -4,7 +4,7 @@ $( document ).ready(function() {
 var i = 0;
 
 $("#factBtn").click(function() {
-  $.getJSON('/articles', function(data) {
+  $.getJSON('/Article', function(data) {
   	i++;
     console.log(i)
   // for each entry of that json...
