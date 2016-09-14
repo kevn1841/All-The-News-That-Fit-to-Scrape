@@ -40,6 +40,9 @@ db.on('error', function(err) {
   console.log('Database Error:', err);
 });
 
+
+
+
 db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
