@@ -1,3 +1,6 @@
+$( document ).ready(function() {
+
+
 var i = 0;
 
 $("#factBtn").click(function() {
@@ -16,3 +19,4 @@ function checkFact(){
 		i = 0;
 	}
 }
+})
