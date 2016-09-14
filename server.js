@@ -52,6 +52,8 @@ app.get('/'), function(req, res){
 	res.send('index.html');
 }
 
+
+
 app.get('/scrape', function(req, res) {
 	// first, we grab the body of the html with request
   request('https://www.reddit.com/r/funfacts/', function(error, response, html) {
