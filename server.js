@@ -48,9 +48,9 @@ db.on('error', function(err) {
   console.log('Mongoose Error: ', err);
 });
 
-app.get('/'), function(req, res){
-	res.send('index.html');
-}
+app.get('/', function(req, res){
+	res.send('index.html')
+});
 
 
 
