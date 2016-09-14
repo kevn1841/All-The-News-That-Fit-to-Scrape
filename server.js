@@ -32,7 +32,7 @@ app.listen(PORT, function(){
 
 
 // var db = mongojs(databaseUrl, collections);
-mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d')
+mongoose.connect('mongodb://heroku_3vtpsb7d:bvqpq9i4am15hropj5iaiu6q8p@ds019926.mlab.com:19926/heroku_3vtpsb7d');
 
 var db = mongoose.connection;
 
@@ -49,7 +49,7 @@ db.on('error', function(err) {
 });
 
 app.get('/'), function(req, res){
-	res.sendFile('index.html')
+	res.send('index.html');
 }
 
 app.get('/scrape', function(req, res) {
