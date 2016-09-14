@@ -23,8 +23,7 @@ var note = require('./models/note.js')
 // }));
 // app.set("view engine", "handlebars");
 
-app.use(express.static('public'));
-
+app.use(express.static(path.join(__dirname)));
 
 app.listen(PORT, function(){
 	console.log("App listening on PORT " + PORT);
